@@ -24,6 +24,6 @@ public class Usuario
     public string Telefone { get; set; } = string.Empty;
 
     public int? EnderecoId { get; set; }
-    public virtual Endereco Endereco { get; set; }
+    public virtual Endereco? Endereco { get; set; }
 
 }
