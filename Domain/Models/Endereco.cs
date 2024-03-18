@@ -12,20 +12,26 @@ public class Endereco
     public string Cep { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(100)]
     public string Estado { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(100)]
     public string Cidade { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(100)]
     public string Bairro { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(100)]
     public string Logradouro { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(20)]
     public string Numero { get; set; } = string.Empty;
 
+    [StringLength(100)]
     public string Complemento { get; set; } = string.Empty;
 
 }
