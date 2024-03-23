@@ -1,17 +1,24 @@
 using ConcasPay.Domain;
+using ConcasPay.Services.AutenticacaoService;
+using ConcasPay.Services.SenhaService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IAutenticacaoInterface, AutenticacaoService>();
+builder.Services.AddScoped<ISenhaInterface, SenhaService>();
 
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql(defaultConnectionString);
+    options.UseNpgsql(defaultConnectionString ??
+        throw new InvalidOperationException("Connection String is not Found."));
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -26,3 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
+
+app.Run();
