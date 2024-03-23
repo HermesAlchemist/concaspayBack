@@ -11,7 +11,8 @@ builder.Services.AddSwaggerGen();
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql(defaultConnectionString);
+    options.UseNpgsql(defaultConnectionString ??
+        throw new InvalidOperationException("Connection String is not Found."));
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -26,3 +27,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.Run();
