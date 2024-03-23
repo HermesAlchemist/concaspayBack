@@ -13,7 +13,7 @@ public class Usuario
     public string Nome { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(100)]
+    [EmailAddress]
     public string Email { get; set; } = string.Empty;
 
     [Required]
@@ -21,13 +21,14 @@ public class Usuario
     public string CPF { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(100, MinimumLength = 6)]
-    public string Senha { get; set; } = string.Empty;
+    public byte[] SenhaHash { get; set; }
+
+    [Required]
+    public byte[] SenhaSalt { get; set; }
 
     [Required]
     public string Telefone { get; set; } = string.Empty;
 
     public int? EnderecoId { get; set; }
     public virtual Endereco? Endereco { get; set; }
-
 }

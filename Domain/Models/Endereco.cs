@@ -33,5 +33,4 @@ public class Endereco
 
     [StringLength(100)]
     public string Complemento { get; set; } = string.Empty;
-
 }
