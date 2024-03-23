@@ -4,6 +4,7 @@ using ConcasPay.Domain.Models;
 using ConcasPay.Services.SenhaService;
 using jwtRegisterLogin.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConcasPay.Services.AutenticacaoService;
 
@@ -48,7 +49,7 @@ public class AutenticacaoService : IAutenticacaoInterface
             _context.Add(usuario);
             await _context.SaveChangesAsync();
 
-            response.Mensagem = "Usuário criado com sucesso.";
+            response.Mensagem = "Usuário criado com sucesso!";
 
         }
         catch (Exception ex)
@@ -59,6 +60,47 @@ public class AutenticacaoService : IAutenticacaoInterface
         }
 
         return response;
+    }
+
+    public async Task<Response<string>> Login(UsuarioLoginDto usuarioLogin)
+    {
+        Response<string> respostaServico = new Response<string>();
+
+        try
+        {
+
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(userBanco => userBanco.Email == usuarioLogin.Email);
+
+            if (usuario == null)
+            {
+                respostaServico.Mensagem = "Credenciais inválidas!";
+                respostaServico.Status = false;
+                return respostaServico;
+            }
+
+            if (!_senhaInterface.VerificaSenhaHash(usuarioLogin.Senha, usuario.SenhaHash, usuario.SenhaSalt))
+            {
+                respostaServico.Mensagem = "Credenciais inválidas!";
+                respostaServico.Status = false;
+                return respostaServico;
+            }
+
+            var token = _senhaInterface.GerarToken(usuario);
+
+            respostaServico.Dados = token;
+            respostaServico.Mensagem = "Usuário logado com sucesso!";
+
+
+        }
+        catch (Exception ex)
+        {
+            respostaServico.Dados = null;
+            respostaServico.Mensagem = ex.Message;
+            respostaServico.Status = false;
+        }
+
+
+        return respostaServico;
     }
 
     public bool VerificaEmailUsuarioExistente(UsuarioRegistroDto usuarioRegistro)
