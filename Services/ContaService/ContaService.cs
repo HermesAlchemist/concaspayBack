@@ -12,11 +12,13 @@ public class ContaService : IContaService
 {
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly Random _random;
 
     public ContaService(AppDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _random = new Random();
     }
 
     public IEnumerable<ContaDto> GetAllContas()
@@ -33,10 +35,32 @@ public class ContaService : IContaService
 
     public ContaDto CreateConta(ContaDto contaDto)
     {
-        var conta = _mapper.Map<Conta>(contaDto);
-        _dbContext.Contas.Add(conta);
-        _dbContext.SaveChanges();
-        return _mapper.Map<ContaDto>(conta);
+        string numeroConta = GenerateRandomContaNumber();
+        string agencia = "1199";
+
+        var conta = new Conta
+            {
+                IdUsuario = contaDto.IdUsuario,
+                TipoConta = contaDto.TipoConta,
+                Saldo = 0,
+                Agencia = agencia,
+                Numero = numeroConta,
+                Banco = contaDto.Banco
+            };
+
+            _dbContext.Contas.Add(conta);
+            _dbContext.SaveChanges();
+
+            return _mapper.Map<ContaDto>(conta);
+    }
+
+    private string GenerateRandomContaNumber()
+    {
+        // Gera 5 dígitos aleatórios para a parte inicial do número de conta
+        int randomDigits = _random.Next(10000, 99999);
+        // Gera 1 dígito aleatório para a parte final do número de conta
+        int randomDigit = _random.Next(0, 9);
+        return $"{randomDigits}-{randomDigit}";
     }
 
     public ContaDto UpdateConta(ContaDto contaDto)

@@ -14,12 +14,14 @@ public class Conta
     public TipoConta TipoConta { get; set; }
 
     [Required]
-    public decimal Saldo { get; set; }
+    public decimal Saldo { get; set; } = 0;
 
     [Required]
+    [StringLength(4)]
     public int Agencia { get; set; }
 
     [Required]
+    [RegularExpression(@"\d{5}-\d{1}")]
     public int Numero { get; set; }
 
     [Required]
