@@ -1,6 +1,7 @@
 using ConcasPay.Domain.Dtos;
 using ConcasPay.Services.AutenticacaoService;
 using ConcasPay.Services.UsuarioService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConcasPay.Controllers
@@ -18,6 +19,7 @@ namespace ConcasPay.Controllers
             _autenticacaoService = autenticacaoService;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult UsuarioLogado([FromHeader] string token)
         {
@@ -27,6 +29,7 @@ namespace ConcasPay.Controllers
             return Ok(usuarioDto);
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> AtualizaUsuario([FromHeader] string token, [FromBody] UsuarioDto usuarioDto)
         {
@@ -52,6 +55,7 @@ namespace ConcasPay.Controllers
             return Ok(response.Dados);
         }
 
+        [Authorize]
         [HttpPut("ativa")]
         public async Task<IActionResult> AtivaUsuario([FromHeader] string token)
         {
@@ -73,6 +77,7 @@ namespace ConcasPay.Controllers
             return Ok(response.Dados);
         }
 
+        [Authorize]
         [HttpPut("desativa")]
         public async Task<IActionResult> DesativaUsuario([FromHeader] string token)
         {
