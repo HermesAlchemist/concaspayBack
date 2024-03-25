@@ -2,7 +2,8 @@ using ConcasPay.Domain.Dtos;
 using ConcasPay.Services.ContaService;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ConcasPay.Controllers;
+namespace ConcasPay.Controllers
+
 {
     [ApiController]
     [Route("[controller]")]
