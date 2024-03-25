@@ -1,8 +1,9 @@
 using System.Text;
 using ConcasPay.Domain;
 using ConcasPay.Services.AutenticacaoService;
-using ConcasPay.Services.SenhaService;
 using ConcasPay.Services.ContaService;
+using ConcasPay.Services.SenhaService;
+using ConcasPay.Services.UsuarioService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,6 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAutenticacaoInterface, AutenticacaoService>();
 builder.Services.AddScoped<ISenhaInterface, SenhaService>();
 builder.Services.AddScoped<IContaService, ContaService>();
+builder.Services.AddScoped<IUsuarioInterface, UsuarioService>();
 
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>

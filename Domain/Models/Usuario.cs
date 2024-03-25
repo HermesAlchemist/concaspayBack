@@ -32,5 +32,7 @@ public class Usuario
     public int? EnderecoId { get; set; }
     public virtual Endereco? Endereco { get; set; }
 
+    public bool Ativo { get; set; }
+
     public DateTime TokenDataCriacao { get; set; } = DateTime.UtcNow;
 }
