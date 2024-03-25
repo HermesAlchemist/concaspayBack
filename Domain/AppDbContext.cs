@@ -24,6 +24,6 @@ public class AppDbContext : DbContext
 
             modelBuilder.Entity<Conta>()
                 .Property(c => c.Banco)
-                .HasDefaultValue("ConcasBank");
+                .HasDefaultValue("ConcasPay");
         }
 }
