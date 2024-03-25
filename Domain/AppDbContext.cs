@@ -11,19 +11,20 @@ public class AppDbContext : DbContext
 
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Endereco> Enderecos { get; set; }
+    public DbSet<Conta> Contas { get; set; }
 
-     protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Conta>()
-                .Property(c => c.Agencia)
-                .ValueGeneratedOnAdd();
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Conta>()
+            .Property(c => c.Agencia)
+            .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Conta>()
-                .Property(c => c.Numero)
-                .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Conta>()
+            .Property(c => c.Numero)
+            .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Conta>()
-                .Property(c => c.Banco)
-                .HasDefaultValue("ConcasPay");
-        }
+        modelBuilder.Entity<Conta>()
+            .Property(c => c.Banco)
+            .HasDefaultValue("ConcasPay");
+    }
 }

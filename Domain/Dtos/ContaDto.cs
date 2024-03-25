@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using ConcasPay.Domain.Enum;
 
 namespace ConcasPay.Domain.Dtos
 {
     public class ContaDto
     {
         [Required(ErrorMessage = "O campo IdConta é obrigatório")]
-        public int IdConta { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "O campo IdUsuario é obrigatório")]
         public int IdUsuario { get; set; }

@@ -1,7 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using ConcasPay.Domain;
 using ConcasPay.Domain.Dtos;
+using ConcasPay.Domain.Enum;
 using ConcasPay.Domain.Models;
+using ConcasPay.Services.ContaService;
 using ConcasPay.Services.SenhaService;
 using jwtRegisterLogin.Models;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +15,15 @@ public class AutenticacaoService : IAutenticacaoInterface
 {
     public readonly AppDbContext _context;
     private readonly ISenhaInterface _senhaInterface;
-
+    public readonly IContaService _contaInterface;
     private readonly IConfiguration _config;
 
-    public AutenticacaoService(AppDbContext context, ISenhaInterface senhaInterface, IConfiguration config)
+    public AutenticacaoService(AppDbContext context, ISenhaInterface senhaInterface, IContaService contaInterface, IConfiguration config)
     {
         _context = context;
         _senhaInterface = senhaInterface;
         _config = config;
+        _contaInterface = contaInterface;
     }
 
     public async Task<Response<UsuarioRegistroDto>> Registrar(UsuarioRegistroDto usuarioRegistro)
@@ -52,6 +55,14 @@ public class AutenticacaoService : IAutenticacaoInterface
 
             _context.Add(usuario);
             await _context.SaveChangesAsync();
+
+            ContaDto contaDto = new()
+            {
+                IdUsuario = usuario.Id,
+                TipoConta = TipoConta.ContaPoupanca,
+            };
+
+            _contaInterface.CreateConta(contaDto);
 
             response.Mensagem = "Usuário criado com sucesso!";
 
