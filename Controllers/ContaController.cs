@@ -2,10 +2,10 @@ using ConcasPay.Domain.Dtos;
 using ConcasPay.Services.ContaService;
 using Microsoft.AspNetCore.Mvc;
 
-namespace concaspayBack.Controllers
+namespace ConcasPay.Controllers;
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ContaController : ControllerBase
     {
         private readonly IContaService _contaService;
