@@ -1,4 +1,5 @@
 using ConcasPay.Domain.Models;
+using concaspayBack.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConcasPay.Domain;
@@ -12,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Endereco> Enderecos { get; set; }
     public DbSet<Conta> Contas { get; set; }
+    public DbSet<Saque> Saques { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
