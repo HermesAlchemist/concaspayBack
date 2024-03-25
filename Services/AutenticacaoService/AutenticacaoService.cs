@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 using ConcasPay.Domain;
 using ConcasPay.Domain.Dtos;
 using ConcasPay.Domain.Enum;
@@ -14,21 +15,23 @@ namespace ConcasPay.Services.AutenticacaoService;
 public class AutenticacaoService : IAutenticacaoInterface
 {
     public readonly AppDbContext _context;
+    private readonly IMapper _mapper;
     private readonly ISenhaInterface _senhaInterface;
     public readonly IContaService _contaInterface;
     private readonly IConfiguration _config;
 
-    public AutenticacaoService(AppDbContext context, ISenhaInterface senhaInterface, IContaService contaInterface, IConfiguration config)
+    public AutenticacaoService(AppDbContext context, ISenhaInterface senhaInterface, IContaService contaInterface, IConfiguration config, IMapper mapper)
     {
         _context = context;
         _senhaInterface = senhaInterface;
         _config = config;
         _contaInterface = contaInterface;
+        _mapper = mapper;
     }
 
-    public async Task<Response<UsuarioRegistroDto>> Registrar(UsuarioRegistroDto usuarioRegistro)
+    public async Task<Response<UsuarioDto>> Registrar(UsuarioRegistroDto usuarioRegistro)
     {
-        Response<UsuarioRegistroDto> response = new Response<UsuarioRegistroDto>();
+        Response<UsuarioDto> response = new Response<UsuarioDto>();
 
         try
         {
@@ -49,6 +52,7 @@ public class AutenticacaoService : IAutenticacaoInterface
                 Email = usuarioRegistro.Email,
                 CPF = usuarioRegistro.CPF,
                 Telefone = usuarioRegistro.Telefone,
+                Ativo = true,
                 SenhaHash = senhaHash,
                 SenhaSalt = senhaSalt
             };
@@ -64,8 +68,10 @@ public class AutenticacaoService : IAutenticacaoInterface
 
             _contaInterface.CreateConta(contaDto);
 
-            response.Mensagem = "Usuário criado com sucesso!";
+            var usuarioDto = _mapper.Map<UsuarioDto>(usuario);
 
+            response.Dados = usuarioDto;
+            response.Mensagem = "Usuário criado com sucesso!";
         }
         catch (Exception ex)
         {

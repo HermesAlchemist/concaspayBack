@@ -3,6 +3,7 @@ using System;
 using ConcasPay.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ConcasPay.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240325091607_CriaTabelaContas")]
+    partial class CriaTabelaContas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,29 +160,6 @@ namespace ConcasPay.Migrations
                     b.HasIndex("EnderecoId");
 
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("ConcasPay.Domain.Models.Saque", b =>
-                {
-                    b.Property<Guid>("Uuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("DataExpiracao")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DataSolicitacao")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("IdConta")
-                        .HasColumnType("integer");
-
-                    b.Property<double>("Valor")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Uuid");
-
-                    b.ToTable("Saques");
                 });
 
             modelBuilder.Entity("ConcasPay.Domain.Models.Usuario", b =>
