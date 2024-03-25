@@ -16,5 +16,14 @@ namespace ConcasPay.Domain.Dtos
 
         [Required(ErrorMessage = "O campo Saldo é obrigatório")]
         public decimal Saldo { get; set; }
+
+        [Required(ErrorMessage = "O campo Agencia é obrigatório")]
+        public string Agencia { get; set; }
+
+        [Required(ErrorMessage = "O campo Numero é obrigatório")]
+        public string Numero { get; set; } 
+
+        [Required(ErrorMessage = "O campo Banco é obrigatório")]
+        public string Banco { get; set; }
     }
 }
