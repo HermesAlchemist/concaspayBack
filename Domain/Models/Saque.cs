@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ConcasPay.Domain.Models;
 
-namespace concaspayBack.Domain.Models
+namespace ConcasPay.Domain.Models
 {
     public class Saque
     {

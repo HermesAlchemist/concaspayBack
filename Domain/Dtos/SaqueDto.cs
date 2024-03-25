@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ConcasPay.Domain.Dtos;
 using ConcasPay.Domain.Models;
 
-namespace concaspayBack.Domain.Dtos
+namespace ConcasPay.Domain.Dtos
 {
     public class SaqueDto
     {

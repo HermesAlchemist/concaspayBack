@@ -1,5 +1,5 @@
 using ConcasPay.Domain.Models;
-using concaspayBack.Domain.Models;
+using ConcasPay.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConcasPay.Domain;

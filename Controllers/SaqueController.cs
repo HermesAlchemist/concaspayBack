@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using concaspayBack.Services.SaqueService;
+using ConcasPay.Services.SaqueService;
 using ConcasPay.Services.AutenticacaoService;
-using concaspayBack.Domain.Dtos;
+using ConcasPay.Domain.Dtos;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
-namespace concaspayBack.Controllers
+namespace ConcasPay.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -52,11 +52,9 @@ namespace concaspayBack.Controllers
             // Accessing the logged-in user's identity
             var jwt = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
 
-            var userId = _autenticacaoInterface.ObterUsuarioIdPorToken(jwt);
-
             SaqueDto saqueDto = new SaqueDto(){
-                Uuid = "",
-                IdConta = userId,
+                Uuid = Guid.NewGuid(),
+                IdConta = _autenticacaoInterface.ObterUsuarioIdPorToken(jwt),
                 Valor = valorSaque.Valor,
                 DataSolicitacao = DateTime.Now,
                 DataExpiracao = DateTime.Now.AddMinutes(30)

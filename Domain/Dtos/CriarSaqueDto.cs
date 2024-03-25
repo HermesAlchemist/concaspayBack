@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace concaspayBack.Domain.Dtos
+namespace ConcasPay.Domain.Dtos
 {
     public class CriarSaqueDto
     {

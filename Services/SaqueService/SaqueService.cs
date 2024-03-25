@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ConcasPay.Domain;
-using concaspayBack.Domain.Dtos;
-using concaspayBack.Domain.Models;
+using ConcasPay.Domain.Dtos;
+using ConcasPay.Domain.Models;
 
-namespace concaspayBack.Services.SaqueService
+namespace ConcasPay.Services.SaqueService
 {
-    public class SaqueService
+    public class SaqueService: ISaqueService
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;

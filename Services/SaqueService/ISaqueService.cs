@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using concaspayBack.Domain.Dtos;
+using ConcasPay.Domain.Dtos;
 
-namespace concaspayBack.Services.SaqueService
+namespace ConcasPay.Services.SaqueService
 {
     public interface ISaqueService
     {
