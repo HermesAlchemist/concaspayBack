@@ -1,10 +1,11 @@
+using System.IdentityModel.Tokens.Jwt;
 using ConcasPay.Domain;
 using ConcasPay.Domain.Dtos;
 using ConcasPay.Domain.Models;
 using ConcasPay.Services.SenhaService;
 using jwtRegisterLogin.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ConcasPay.Services.AutenticacaoService;
 
@@ -13,10 +14,13 @@ public class AutenticacaoService : IAutenticacaoInterface
     public readonly AppDbContext _context;
     private readonly ISenhaInterface _senhaInterface;
 
-    public AutenticacaoService(AppDbContext context, ISenhaInterface senhaInterface)
+    private readonly IConfiguration _config;
+
+    public AutenticacaoService(AppDbContext context, ISenhaInterface senhaInterface, IConfiguration config)
     {
         _context = context;
         _senhaInterface = senhaInterface;
+        _config = config;
     }
 
     public async Task<Response<UsuarioRegistroDto>> Registrar(UsuarioRegistroDto usuarioRegistro)
@@ -110,5 +114,47 @@ public class AutenticacaoService : IAutenticacaoInterface
         if (usuario != null) return true;
 
         return false;
+    }
+
+    public Usuario? ObterUsuarioPorToken(string token)
+    {
+        var jwtToken = ObterJwtToken(token);
+
+        var userId = int.Parse(jwtToken.Claims.FirstOrDefault(x => x.Type == "Id").Value);
+
+        return _context.Usuarios.FirstOrDefault(u => u.Id == userId);
+    }
+
+    public int ObterUsuarioIdPorToken(string token)
+    {
+        var jwtToken = ObterJwtToken(token);
+
+        var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "Id");
+        if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+        {
+            return userId;
+        }
+
+        return 0;
+    }
+
+    private JwtSecurityToken ObterJwtToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+
+        tokenHandler.ValidateToken(token, new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = key,
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        }, out SecurityToken validatedToken);
+
+        var jwtToken = (JwtSecurityToken)validatedToken;
+
+        return jwtToken;
     }
 }

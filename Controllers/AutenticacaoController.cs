@@ -18,7 +18,6 @@ namespace jwtRegisterLogin.Controllers
         [HttpPost("/login")]
         public async Task<ActionResult> Login(UsuarioLoginDto usuarioLogin)
         {
-
             var resposta = await _autenticacaoInterface.Login(usuarioLogin);
             return Ok(resposta);
         }
@@ -29,6 +28,5 @@ namespace jwtRegisterLogin.Controllers
             var resposta = await _autenticacaoInterface.Registrar(usuarioRegistro);
             return Ok(resposta);
         }
-
     }
 }

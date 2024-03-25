@@ -39,6 +39,7 @@ public class SenhaService : ISenhaInterface
     {
         List<Claim> claims = new()
         {
+            new Claim("Id", usuario.Id.ToString()),
             new Claim("Email", usuario.Email),
             new Claim("CPF", usuario.CPF)
         };
