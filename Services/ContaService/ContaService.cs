@@ -44,7 +44,8 @@ public class ContaService : IContaService
             TipoConta = contaDto.TipoConta,
             Saldo = 0,
             Agencia = agencia,
-            Numero = numeroConta
+            Numero = numeroConta,
+            Banco = contaDto.Banco
         };
 
         _dbContext.Contas.Add(conta);
