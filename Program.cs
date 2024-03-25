@@ -2,6 +2,7 @@ using System.Text;
 using ConcasPay.Domain;
 using ConcasPay.Services.AutenticacaoService;
 using ConcasPay.Services.SenhaService;
+using ConcasPay.Services.ContaService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
