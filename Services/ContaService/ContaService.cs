@@ -37,7 +37,6 @@ public class ContaService : IContaService
     {
         string numeroConta = GenerateRandomContaNumber();
         string agencia = "1199";
-        string banco = "concasBank";
 
         var conta = new Conta
         {
@@ -46,7 +45,7 @@ public class ContaService : IContaService
             Saldo = 0,
             Agencia = agencia,
             Numero = numeroConta,
-            Banco = banco
+            Banco = contaDto.Banco
         };
 
         _dbContext.Contas.Add(conta);
