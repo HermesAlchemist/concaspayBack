@@ -32,6 +32,11 @@ public class ContaService : IContaService
         var conta = _dbContext.Contas.Find(id);
         return _mapper.Map<ContaDto>(conta);
     }
+    public ContaDto GetContaByUserId(int id)
+    {
+        var conta = _dbContext.Contas.Where(s => s.IdUsuario == id);
+        return _mapper.Map<ContaDto>(conta);
+    }
 
     public ContaDto CreateConta(ContaDto contaDto)
     {

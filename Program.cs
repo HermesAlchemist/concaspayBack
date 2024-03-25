@@ -14,19 +14,20 @@ using Microsoft.AspNetCore.Http;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IAutenticacaoInterface, AutenticacaoService>();
 builder.Services.AddScoped<ISenhaInterface, SenhaService>();
 builder.Services.AddScoped<IContaService, ContaService>();
 builder.Services.AddScoped<ISaqueService, SaqueService>();
 builder.Services.AddScoped<IUsuarioInterface, UsuarioService>();
+// builder.Services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
