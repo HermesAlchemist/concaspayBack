@@ -66,7 +66,6 @@ public class ContaService : IContaService
 
     public ContaDto UpdateConta(ContaDto contaDto)
     {
-        //corrigir
         var conta = _dbContext.Contas.Find(contaDto.Id);
         if (conta == null)
         {

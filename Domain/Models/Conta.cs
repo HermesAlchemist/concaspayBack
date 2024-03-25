@@ -6,7 +6,7 @@ namespace ConcasPay.Domain.Models;
 public class Conta
 {
     [Key]
-    public int IdConta { get; set; }
+    public int Id { get; set; }
 
     [Required]
     public int IdUsuario { get; set; }
