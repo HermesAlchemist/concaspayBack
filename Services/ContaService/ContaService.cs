@@ -37,21 +37,22 @@ public class ContaService : IContaService
     {
         string numeroConta = GenerateRandomContaNumber();
         string agencia = "1199";
+        string banco = "concasBank";
 
         var conta = new Conta
-            {
-                IdUsuario = contaDto.IdUsuario,
-                TipoConta = contaDto.TipoConta,
-                Saldo = 0,
-                Agencia = agencia,
-                Numero = numeroConta,
-                Banco = contaDto.Banco
-            };
+        {
+            IdUsuario = contaDto.IdUsuario,
+            TipoConta = contaDto.TipoConta,
+            Saldo = 0,
+            Agencia = agencia,
+            Numero = numeroConta,
+            Banco = banco
+        };
 
-            _dbContext.Contas.Add(conta);
-            _dbContext.SaveChanges();
+        _dbContext.Contas.Add(conta);
+        _dbContext.SaveChanges();
 
-            return _mapper.Map<ContaDto>(conta);
+        return _mapper.Map<ContaDto>(conta);
     }
 
     private string GenerateRandomContaNumber()
@@ -65,6 +66,7 @@ public class ContaService : IContaService
 
     public ContaDto UpdateConta(ContaDto contaDto)
     {
+        //corrigir
         var conta = _dbContext.Contas.Find(contaDto.Id);
         if (conta == null)
         {

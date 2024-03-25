@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ConcasPay.Domain.Enum;
 
 namespace ConcasPay.Domain.Models;
 
@@ -18,19 +19,13 @@ public class Conta
 
     [Required]
     [StringLength(4)]
-    public int Agencia { get; set; }
+    public string Agencia { get; set; } = string.Empty;
 
     [Required]
     [RegularExpression(@"\d{5}-\d{1}")]
-    public int Numero { get; set; }
+    public string Numero { get; set; } = string.Empty;
 
     [Required]
     [StringLength(50)]
-    public string Banco { get; set; }
-}
-
-public enum TipoConta
-{
-    ContaCorrente,
-    ContaPoupanca
+    public string Banco { get; set; } = string.Empty;
 }

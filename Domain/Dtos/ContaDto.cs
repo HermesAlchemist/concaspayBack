@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ConcasPay.Domain.Enum;
 
 namespace ConcasPay.Domain.Dtos
 {
