@@ -20,7 +20,7 @@ namespace ConcasPay.Controllers
         private readonly IAutenticacaoInterface _autenticacaoInterface;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SaqueController(ISaqueService saqueService, IAutenticacaoInterface autenticacaoInterface,IHttpContextAccessor httpContextAccessor)
+        public SaqueController(ISaqueService saqueService, IAutenticacaoInterface autenticacaoInterface, IHttpContextAccessor httpContextAccessor)
         {
             _saqueService = saqueService;
             _autenticacaoInterface = autenticacaoInterface;
@@ -31,7 +31,7 @@ namespace ConcasPay.Controllers
         public IActionResult Get()
         {
             // Accessing the logged-in user's identity
-            var jwt = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
+            var jwt = _httpContextAccessor.HttpContext?.Request.Headers.Authorization.ToString();
 
             var userId = _autenticacaoInterface.ObterUsuarioIdPorToken(jwt);
 
@@ -49,18 +49,26 @@ namespace ConcasPay.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] CriarSaqueDto valorSaque)
         {
-            // Accessing the logged-in user's identity
-            var jwt = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
+            try
+            {
+                // Accessing the logged-in user's identity
+                var jwt = _httpContextAccessor.HttpContext?.Request.Headers.Authorization.ToString();
 
-            SaqueDto saqueDto = new SaqueDto(){
-                Uuid = Guid.NewGuid(),
-                IdConta = _autenticacaoInterface.ObterUsuarioIdPorToken(jwt),
-                Valor = valorSaque.Valor,
-                DataSolicitacao = DateTime.Now,
-                DataExpiracao = DateTime.Now.AddMinutes(30)
-            };
-            var novoSaque = _saqueService.CreateSaque(saqueDto);
-            return CreatedAtAction(nameof(Get), new { id = novoSaque.Uuid }, novoSaque);
+                SaqueDto saqueDto = new()
+                {
+                    Uuid = Guid.NewGuid(),
+                    IdConta = _autenticacaoInterface.ObterUsuarioIdPorToken(jwt),
+                    Valor = valorSaque.Valor,
+                    DataSolicitacao = DateTime.Now,
+                    DataExpiracao = DateTime.Now.AddMinutes(30)
+                };
+                var novoSaque = _saqueService.CreateSaque(saqueDto);
+                return CreatedAtAction(nameof(Get), new { id = novoSaque.Uuid }, novoSaque);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
+            }
         }
     }
 }
