@@ -27,5 +27,5 @@ public class Conta
 
     [Required]
     [StringLength(50)]
-    public string Banco { get; set; } = string.Empty;
+    public string? Banco { get; set; }
 }
